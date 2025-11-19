@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -89,6 +88,12 @@ export default function Navigation() {
                 </Link>
               </li>
             ))}
+            <button
+              onClick={handleResumeButton}
+              className=" md:hidden justify-self-end text-white bg-[#A28743] p-2 rounded-lg shadow-[0_6px_0_0_rgba(43,43,43,1)] font-semibold cursor-pointer w-1/3 mt-4 lg:w-1/4 hover:shadow-[0_9px_0_0_rgba(43,43,43,1)] hover:bg-[#d6b55a]"
+            >
+              Resume
+            </button>
           </ul>
         )}
       </div>
