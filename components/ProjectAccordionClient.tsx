@@ -47,7 +47,7 @@ export default function ProjectAccordionClient({
                 alt={project.title}
                 width={300}
                 height={300}
-                className="rounded-lg object-cover mx-auto"
+                className="rounded-lg object-cover mx-auto xl:w-1/2 xl:h-auto"
               />
             </div>
           )}

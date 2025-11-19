@@ -13,7 +13,7 @@ export default function ExpandButton({
   return (
     <ExpandMoreIcon
       onClick={onToggle}
-      className={`transition-transform duration-300 ${
+      className={`transition-transform duration-300 cursor-pointer ${
         isExpanded ? "rotate-180" : ""
       }`}
     />
