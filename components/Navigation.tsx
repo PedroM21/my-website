@@ -12,8 +12,8 @@ export default function Navigation() {
     { href: "/", label: "Home" },
     { href: "/#services", label: "Services" },
     { href: "/#projects", label: "Projects" },
-    // { href: "/#about", label: "About" },
     { href: "/#contact", label: "Contact" },
+    { href: "/casestudies", label: "Case Studies" },
   ];
 
   const handleMenuToggle = () => {
@@ -28,7 +28,7 @@ export default function Navigation() {
     <nav className="absolute w-full border-b-2 border-[#878787] bg-[#FFF7E8] ">
       <div className="md:grid grid-cols-3 items-center mx-8 lg:mx-32 xl:mx-64 border-l-2 border-r-2 border-[#878787] h-20">
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex col-start-2 justify-center font-semibold gap-8">
+        <ul className="hidden md:flex col-start-2 justify-center font-semibold gap-4">
           {navItems.map((item) => (
             <li key={item.href}>
               <Link

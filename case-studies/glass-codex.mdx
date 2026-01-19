@@ -1,0 +1,219 @@
+import Image from "next/image";
+
+## Overview
+
+Glass Codex is a character-focused writing web application built as a solo project, designed to help indie creators quickly create, organize, and iterate on characters without cognitive overhead.
+
+This case study documents the product framing, design decisions, technical implementation, and trade-offs made during development.
+
+### Problem Statement
+
+Indie game designers and character writers often manage characters, plot, and lore across disconnected tools or unstructured documents. This makes it difficult to quickly reference characters, understand their narrative purpose, or maintain consistency over time.
+
+Glass Codex aims to provide a structured, focused interface for character creation that keeps them all in one place to minimize disorganization and headaches.
+
+### Target Audience
+
+This project intentionally scoped toward indie creators to prioritize safety, clarity, and simplicity.
+
+- Indie game developers
+- Tabletop designers
+- Design students
+- Character-focused writers
+
+### Product Goals
+
+- Character creation completed in under **1 minute**
+- Most recent characters visible immediately after login
+- All characters accessible in **one click**
+- Any specific character reachable within **two clicks** from login
+- No accidental character deletion (destructive actions require confirmation)
+
+### Constraints
+
+- **Solo development:** Design, frontend, and backend handled by one developer
+- **Scope limits:** Character-focused only
+- No real-time collaboration
+- No export or sharing features in v1
+
+---
+
+## Feature Breakdown
+
+### v1 – Character Creation
+
+- Name, role, traits, flaws
+- Narrative purpose
+- Visual design (image upload)
+- Music themes (schema only)
+
+### v2 – Planned Features
+
+#### Lore Creation
+
+- Enemy types
+- World factions
+- World concepts
+
+#### Plot Journal
+
+- Story outlines
+- Story arcs
+- Plot summaries
+
+---
+
+## User Flows
+
+### Character Creation Flow
+
+Designed to minimize context switching and complete creation in under one minute.
+
+1. User selects “Create Character”
+2. Inputs character details
+3. Uploads character image
+4. Click submit character
+5. Character is created and displayed
+
+### Upload Flow
+
+Utilizes Cloudinary for image cloud storage and ease of functionality.
+
+1. User selects “Click to upload an image.”
+2. User can browse or drag and drop
+3. Preview Show
+4. Click done
+
+### Delete Character Flow
+
+Designed to prevent accidental deletions by requiring the user's confirmation.
+
+1. Click delete button to delete character
+2. Confirmation modal opens
+3. Click delete button to delete character
+
+### Edit Character Flow
+
+Editable fields and rich text fields allow the user to update/change preexisting details.
+
+1. User clicks character card to navigate to character detail page
+2. Clicks detail field they want to edit
+3. Click save changes
+4. UI updates info
+
+### Authentication Flow
+
+Tokens are stored in local storage with a four-hour expiration. This approach was chosen for simplicity in v1, with plans to migrate to more robust session handling in future iterations.
+
+1. User logs in
+2. Token is generated for the user and stored in local storage, which expires after four hours
+3. When the user tries to access any feature on the app, the token is used to verify
+
+---
+
+## Information Architecture
+
+Sitemap and wireframes were created to validate navigation simplicity and ensure all core actions were reachable within two clicks.
+
+### Sitemap
+
+<Image
+  src="/Sitemap.png"
+  alt="Sitemap"
+  width={600}
+  height={300}
+  className="mx-auto"
+/>
+
+### Wireframes
+
+<div className="flex flex-col md:flex-row md:flex-wrap justify-evenly">
+  <Image
+    src="/Dashboard.png"
+    alt="Dashboard Wireframe"
+    width={600}
+    height={300}
+    className="mt-4 rounded-lg shadow-lg"
+  />
+  <Image
+    src="/Characters-Page.png"
+    alt="Characters Page Wireframe"
+    width={600}
+    height={300}
+    className="mt-4 rounded-lg shadow-lg"
+  />
+  <Image
+    src="/Character-Page.png"
+    alt="Character Page Wireframe"
+    width={600}
+    height={300}
+    className="mt-4 rounded-lg shadow-lg"
+  />
+</div>
+
+---
+
+## Data Modeling
+
+The data model was designed around a clear ownership hierarchy:
+
+- A user owns many characters
+- A character can have multiple artworks at the data level.  
+  In v1, the UI intentionally limits uploads to a single image to reduce complexity while preserving future extensibility.
+- A character can have multiple music themes
+  Similarly, in v1 there is no feature to upload a music theme but there is future planning for implementation.
+
+### Schema vs Implementation
+
+While the database schema includes support for music themes, this feature was intentionally not implemented in v1.  
+The schema was designed to support future expansion without requiring destructive migrations.
+
+## Design Decisions & Trade-offs
+
+### Database
+
+While both MongoDB and PostgreSQL are excellent databases you can utilize for your backend server architecture, I decided PostgreSQL would align closer to my needs for this project.
+Considering that characters would have relations to other data models, PostgreSQL provided excellent support for this.
+
+I used Neon specifically to allow for a serverless setup and for flexibility to scale the database in the future. I used drizzle ORM to help manage everything.
+
+### UI
+
+A clean, structured UI was prioritized to reduce cognitive load and support fast character creation. While this resulted in fewer customization options in v1, it ensured that core actions remained clear, discoverable, and efficient.
+
+### Cloudinary
+
+Chosen for the cloud image storage and ease of implementation. Also allows for scalibility support.
+
+## Visual Design
+
+To add some uniqueness to the design I wanted to design the character cards similar to a "wanted poster" sign. This meant that I needed to choose a color palette that would work well with the parchment colored paper. To add some contrast I used blue for the dashboard and modal colors.
+
+Used a modal workflow design approach to lessen page redirects and load times. Also allows for the app to feel more interactive.
+
+## Technical Implementation
+
+### Frontend
+
+- React
+- TailwindCSS for the styling, to make designing the elements faster and easier
+- Framer Motion to add clean animations
+- App Router
+
+### Backend
+
+- Next.js to handle SSR to speed up page load, and offer SEO optimization for the landing page. Next.js also allows for easier project setup by having it in one directory
+- Neon (PostgreSQL)
+- Drizzle ORM
+- Server actions: Account Creation and Login in addition to character creation utilize form submit to interact with the API.
+- API: Allows for simple CRUD functionality.
+
+## Reflection
+
+Building Glass Codex significantly deepened my understanding of Next.js as a full-stack framework, particularly around the App Router, server actions, and data modeling for relational applications.
+
+One of the most valuable lessons was the importance of designing the database schema ahead of feature implementation. By planning relationships early—such as characters supporting multiple artworks and music themes—I was able to preserve flexibility for future versions without requiring destructive migrations.
+
+If I were to approach this project again, I would invest more time earlier in defining reusable UI patterns and components. While the modal-based workflow proved effective for reducing navigation friction, some components could be abstracted further to improve maintainability as the project scales.
+
+Overall, this project reinforced the importance of intentional scope management. By focusing exclusively on character creation in v1, I was able to ship a polished, usable product while laying a solid technical and design foundation for future plot and worldbuilding features.
